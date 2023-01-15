@@ -34,7 +34,7 @@ namespace OPassCliPS.Accounts
         }
         protected override void ProcessRecord()
         {
-            WriteVerbose($"Adding account for {Email}.");
+            WriteVerbose($"{DateTime.Now} : Adding account for {Email}.");
             SharedState.OPManager.AddAccount(
                 address: Domain,
                 secretKey: ConvertFromSecureString(SecretKey),

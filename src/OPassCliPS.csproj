@@ -21,7 +21,7 @@
   
   <ItemGroup>
     <Reference Include="OnePassword.NET">
-      <HintPath>..\..\OnePassword.NET\OnePassword.NET\bin\Debug\net6.0\OnePassword.NET.dll</HintPath>
+      <HintPath>..\Pending\OnePassword.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   

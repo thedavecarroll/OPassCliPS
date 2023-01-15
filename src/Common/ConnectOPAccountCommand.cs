@@ -64,11 +64,11 @@ namespace OPassCliPS.Common
 
         protected override void ProcessRecord()
         {
-            WriteVerbose($"1Password CLI Version: {SharedState.OPManager.Version}");
+            WriteVerbose($"{DateTime.Now} : 1Password CLI Version: {SharedState.OPManager.Version}");
 
             if (!SharedState.IsAuthenticated || ParameterSetName == "SignInAccount") {
                 createCache = true;
-                WriteVerbose("Signing into 1Password.");
+                WriteVerbose($"{DateTime.Now} : Signing into 1Password.");
                 try
                 {
                     switch (ParameterSetName) {
@@ -101,7 +101,7 @@ namespace OPassCliPS.Common
             Thread.Sleep(500);
             try
             {
-                WriteVerbose("Retrieving connected account.");
+                WriteVerbose($"{DateTime.Now} : Retrieving connected account.");
                 SharedState.AuthenticatedAccount = SharedState.OPManager.GetAccount();
             }
             catch (Exception exception)

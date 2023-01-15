@@ -15,7 +15,7 @@ namespace OPassCliPS.Common
 
             if (cliPath == null)
             {
-                WriteVerbose("Attempting to discover the path to 1Password CLI.");
+                WriteVerbose($"{DateTime.Now} : Attempting to discover the path to 1Password CLI.");
                 var onePasswordCli = new System.Management.Automation.SessionState().InvokeCommand.
                 InvokeScript(@"(Get-Command -Name op.exe -CommandType Application).Path");
 
@@ -29,7 +29,7 @@ namespace OPassCliPS.Common
             }
             else
             {
-                WriteVerbose("User provided path to 1Password CLI.");
+                WriteVerbose($"{DateTime.Now} : User provided path to 1Password CLI.");
                 onePasswordPath = cliPath;
             }
 
@@ -40,7 +40,7 @@ namespace OPassCliPS.Common
                 throw new ItemNotFoundException(notFoundMessage);
             }
 
-            WriteVerbose($"Setting 1Password CLI Path session variable.");
+            WriteVerbose($"{DateTime.Now} : Setting 1Password CLI Path session variable.");
             SharedState.CliPath = onePasswordCliPath;
 
         }
@@ -55,15 +55,15 @@ namespace OPassCliPS.Common
         {
             if (SharedState.IsAuthenticated && SharedState.OPManager != null)
             {
-                WriteVerbose("There is an active 1Password session.");
+                WriteVerbose($"{DateTime.Now} : There is an active 1Password session.");
                 if (force)
                 {
-                    WriteVerbose("A new session will be created, after signout from existing session.");
+                    WriteVerbose($"{DateTime.Now} : A new session will be created, after signout from existing session.");
                     TerminateSession();
                 }
                 else
                 {
-                    WriteVerbose("A new session will not be created.");
+                    WriteVerbose($"{DateTime.Now} : A new session will not be created.");
                     return;
                 }
             }
@@ -79,7 +79,7 @@ namespace OPassCliPS.Common
 
             if (secretKey == null && password == null && domain == null && email == null)
             {
-                WriteVerbose(string.Format(appIntegrationVerboseText, "with"));
+                WriteVerbose(DateTime.Now.ToString() + " : " + string.Format(appIntegrationVerboseText, "with"));
                 SharedState.OPManager = new(path: SharedState.CliPath.DirectoryName, executable: SharedState.CliPath.Name, appIntegrated: true);
                 SharedState.IsAppIntegrated = true;
             }
@@ -88,15 +88,15 @@ namespace OPassCliPS.Common
                 plainTextPassword = ConvertFromSecureString(password);
                 plainTextSecretKey = ConvertFromSecureString(secretKey);
 
-                WriteVerbose(string.Format(appIntegrationVerboseText, "without"));
+                WriteVerbose(DateTime.Now.ToString() + " : " + string.Format(appIntegrationVerboseText, "without"));
                 SharedState.OPManager = new(path: SharedState.CliPath.DirectoryName, executable: SharedState.CliPath.Name, appIntegrated: false);
 
-                WriteVerbose($"Adding account for {email}.");
+                WriteVerbose($"{DateTime.Now} : Adding account for {email}.");
                 SharedState.OPManager.AddAccount(domain, email, plainTextSecretKey, plainTextPassword);
             }
             else if (password != null && email != null)
             {
-                WriteVerbose($"Signing in with account {email}.");
+                WriteVerbose($"{DateTime.Now} : Signing in with account {email}.");
             }
 
         }
@@ -104,7 +104,7 @@ namespace OPassCliPS.Common
         internal void TerminateSession()
         {
             ValidateSession();
-            WriteVerbose("Signing out of 1Password session.");
+            WriteVerbose($"{DateTime.Now} : Signing out of 1Password session.");
             SharedState.OPManager.SignOut(true);
             SharedState.IsAuthenticated = false;
             Thread.Sleep(500);

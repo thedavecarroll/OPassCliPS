@@ -13,10 +13,6 @@ namespace OPassCliPS.Common
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            var allItems = SharedState.OPManager.SearchForItems(includeArchive: true);
-            var items = SharedState.OPManager.SearchForItems();
-            var archivedItems = allItems.ExceptBy(items.Select(e => e.Id), x => x.Id);
-
             string cacheAction;
             string cacheMessage;
             if (createCache)
@@ -31,13 +27,17 @@ namespace OPassCliPS.Common
             }
             if (force)
             {
-                WriteVerbose(cacheMessage);
+                var allItems = SharedState.OPManager.SearchForItems(includeArchive: true);
+                var items = SharedState.OPManager.SearchForItems();
+                var archivedItems = allItems.ExceptBy(items.Select(e => e.Id), x => x.Id);
+
+                WriteVerbose($"{ DateTime.Now} : {cacheMessage}");
                 SharedState.Cache.Vaults = SharedState.OPManager.GetVaults();
                 SharedState.Cache.Items = items;
                 SharedState.Cache.ArchivedItems = archivedItems.ToImmutableList();
                 SharedState.Cache.Accounts = SharedState.OPManager.GetAccounts();
                 string elapsedTime = stopwatch.Elapsed.ToString("mm':'ss':'fff");
-                WriteVerbose($"Cache {cacheAction} time: {elapsedTime}");
+                WriteVerbose($"{DateTime.Now} : Cache {cacheAction} time: {elapsedTime}");
             }
             stopwatch.Stop();
 
@@ -47,7 +47,7 @@ namespace OPassCliPS.Common
         {
             if (!SharedState.SuppressCacheMessage)
             {
-                WriteVerbose("This command uses the module cache. If you want to force a refresh of the cache, please use the -RefreshCache parameter.");
+                WriteVerbose($"{DateTime.Now} : This command uses the module cache. If you want to force a refresh of the cache, please use the -RefreshCache parameter.");
             }
         }
     }

@@ -96,7 +96,7 @@ namespace OPassCliPS.Items
                     catch { }
 
                     item = SharedState.Cache.ArchivedItems.First(x => x.Title == Item);
-                    WriteWarning($"The secret {Item} has been archived.");
+                    WriteWarning($"{DateTime.Now} : The secret {Item} has been archived.");
 
                 }
                 catch (Exception exception)
@@ -119,7 +119,7 @@ namespace OPassCliPS.Items
                 {
                     verboseMessage = $"Getting details for item {item.Id}.";
                 }
-                WriteVerbose(verboseMessage);
+                WriteVerbose($"{DateTime.Now} : {verboseMessage}");
                 getItem = SharedState.OPManager.SearchForItem(item, _vault, _includeArchive);
                 WriteObject(getItem);
 
@@ -127,7 +127,7 @@ namespace OPassCliPS.Items
             else
             {
                 string searchCriteriaText = searchCriteria.Count > 0 ? $" based on the following critera: {string.Join(", ", searchCriteria)}" : " without any criteria.";
-                WriteVerbose($"Searching for all items{searchCriteriaText}");
+                WriteVerbose($"{DateTime.Now} : Searching for all items{searchCriteriaText}");
                 searchForItems = SharedState.OPManager.SearchForItems(_vault, _includeArchive, _favorite, _categories, _tags);
                 foreach (Item foundItem in searchForItems)
                 {

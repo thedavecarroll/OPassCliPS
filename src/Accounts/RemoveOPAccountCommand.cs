@@ -12,7 +12,7 @@ namespace OPassCliPS.Accounts
         }
         protected override void ProcessRecord()
         {
-            WriteVerbose("Removing 1Password account from this system.");
+            WriteVerbose($"{DateTime.Now} : Removing 1Password account from this system.");
             SharedState.OPManager.ForgetAccount();
 
         }

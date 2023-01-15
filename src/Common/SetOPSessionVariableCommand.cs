@@ -22,7 +22,7 @@ namespace OPassCliPS.Common
         {
             if (MyInvocation.BoundParameters.ContainsKey("SuppressCacheMessage"))
             {
-                WriteVerbose($"Current SuppressCacheMessage value: {SharedState.SuppressCacheMessage}");
+                WriteVerbose($"{DateTime.Now} : Current SuppressCacheMessage value: {SharedState.SuppressCacheMessage}");
                 SharedState.SuppressCacheMessage = SuppressCacheMessage;
             }
             if (MyInvocation.BoundParameters.ContainsKey("CliPath"))
@@ -30,7 +30,7 @@ namespace OPassCliPS.Common
                 bool checkOverrite = false;
                 if (SharedState.CliPath != null)
                 {
-                    WriteVerbose($"Current CliPath value: {SharedState.CliPath}");
+                    WriteVerbose($"{DateTime.Now} : Current CliPath value: {SharedState.CliPath}");
                     checkOverrite = true;
                 }
                 string verboseDescription = "Overwrite current CliPath value";

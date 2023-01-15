@@ -32,13 +32,13 @@ namespace OPassCliPS.Items
             WriteCacheMessage();
 
             Vault vault = SharedState.Cache.Vaults.First(x => x.Name == Vault);
-            WriteVerbose($"Getting details for vault with name of {Vault}");
+            WriteVerbose($"{DateTime.Now} : Getting details for vault with name of {Vault}");
             _vault = SharedState.OPManager.GetVault(vault);
 
             if (ParameterSetName == "GetItem")
             {
                 Item item = SharedState.Cache.Items.First(x => x.Title == Item);
-                WriteVerbose($"Getting item with name of {Item}");
+                WriteVerbose($"{DateTime.Now} : Getting item with name of {Item}");
                 _item = SharedState.OPManager.GetItem(item, _vault);
             }
         }
@@ -52,7 +52,7 @@ namespace OPassCliPS.Items
             if (ParameterSetName == "VaultItems")
             {
                 verboseMessage = $"Retrieving items for vault {Vault}.";
-                WriteVerbose(verboseMessage);
+                WriteVerbose($"{DateTime.Now} : {verboseMessage}");
                 vaultItems = SharedState.OPManager.GetItems(_vault);
                 foreach (IItem item in vaultItems)
                 {
@@ -62,7 +62,7 @@ namespace OPassCliPS.Items
             else
             {
                 verboseMessage = $"Getting details for item {Item} from vault {Vault}.";
-                WriteVerbose(verboseMessage);
+                WriteVerbose($"{DateTime.Now} : {verboseMessage}");
                 getItem = SharedState.OPManager.GetItem(_item, _vault);
                 WriteObject(getItem);
             }
